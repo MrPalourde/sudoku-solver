@@ -61,23 +61,23 @@ let grid_solved = [|
 |]
 
 let test_empty () =
-    let solved = solve grid_empty in
+    let solved = solve (Array.map Array.copy grid_empty) in
     solved
 
 let test_easy () =
-    let solved = solve grid_easy in
+    let solved = solve (Array.map Array.copy grid_easy) in
     solved
 
 let test_medium () =
-    let solved = solve grid_medium in
+    let solved = solve (Array.map Array.copy grid_medium) in
     solved
 
 let test_hard () =
-    let solved = solve grid_hard in
+    let solved = solve (Array.map Array.copy grid_hard) in
     solved
 
 let test_solved () =
-    let solved = solve grid_solved in
+    let solved = solve (Array.map Array.copy grid_solved) in
     solved
 
 let run_test_stress name f times =
@@ -90,7 +90,7 @@ let run_test_stress name f times =
   Printf.printf "[ %d ] %s in : %.5f seconds\n" times name duration
 
 let () =
-  let times_to_run = 10000000 in
+  let times_to_run = 1000 in
   run_test_stress "empty" test_empty times_to_run;
   run_test_stress "easy" test_easy times_to_run;
   run_test_stress "medium" test_medium times_to_run;
