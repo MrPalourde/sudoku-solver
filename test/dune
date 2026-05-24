@@ -1,3 +1,5 @@
 (test
  (name test_sudoku_solver)
- (libraries sudoku_solver))
+ (libraries sudoku) 
+)
+

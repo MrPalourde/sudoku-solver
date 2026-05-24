@@ -1,4 +1,5 @@
 (executable
- (public_name sudoku-solver)
  (name main)
- (libraries sudoku_solver))
+ (libraries sudoku)
+)
+

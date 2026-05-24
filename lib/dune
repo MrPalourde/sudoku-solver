@@ -1,2 +1,5 @@
 (library
- (name sudoku_solver))
+ (name sudoku)
+ (public_name sudoku-solver)
+)
+
