@@ -1,5 +1,17 @@
 open Sudoku
 
+let grid_empty = [|
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+  [|0;0;0;0;0;0;0;0;0|];
+|]
+
 let grid_easy = [|
   [|5;3;0;0;7;0;0;0;0|];
   [|6;0;0;1;9;5;0;0;0|];
@@ -49,7 +61,6 @@ let grid_solved = [|
 |]
 
 let test_empty () =
-    let grid_empty = Array.make_matrix 9 9 0 in
     let solved = solve grid_empty in
     solved
 
@@ -69,15 +80,19 @@ let test_solved () =
     let solved = solve grid_solved in
     solved
 
-let run_test name f =
-  let result = f () in
-  if result then print_endline ("[ OK ] " ^ name)
-  else print_endline ("[FAIL] " ^ name)
+let run_test_stress name f times =
+  let start_time = Unix.gettimeofday () in
+  for _ = 1 to times do
+      ignore(f ());
+  done;
+  let end_time = Unix.gettimeofday () in
+  let duration = end_time -. start_time in
+  Printf.printf "[ %d ] %s in : %.5f seconds\n" times name duration
 
 let () =
-  run_test "empty" test_empty;
-  run_test "easy" test_easy;
-  run_test "medium" test_medium;
-  run_test "hard" test_hard;
-  run_test "solved" test_solved;
-
+  let times_to_run = 10000000 in
+  run_test_stress "empty" test_empty times_to_run;
+  run_test_stress "easy" test_easy times_to_run;
+  run_test_stress "medium" test_medium times_to_run;
+  run_test_stress "hard" test_hard times_to_run;
+  run_test_stress "solved" test_solved times_to_run;
