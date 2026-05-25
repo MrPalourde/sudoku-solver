@@ -5,6 +5,7 @@
 
 (test
  (name test_sudoku_solver_stress)
- (libraries sudoku unix) 
+ (libraries sudoku unix)
+ (modules test_sudoku_solver_stress grids)
 )
 
