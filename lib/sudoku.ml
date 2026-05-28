@@ -27,16 +27,37 @@ let is_number_correct number x y grid =
     let all = (line grid y) @ (column grid x) @ (box grid x y) in
     not(List.mem number all)
 
+let count_candidates grid x y =
+    let numbers_used = Array.make 10 false in
+    for i = 0 to 8 do
+        numbers_used.(grid.(y).(i)) <- true;
+        numbers_used.(grid.(i).(x)) <- true;
+        let by = (y / 3) * 3 + i/3 in
+        let bx = (x / 3) * 3 + i mod 3 in
+        numbers_used.(grid.(by).(bx)) <- true;
+    done;
+    let count = ref 0 in
+    for i = 0 to 9 do
+        if not numbers_used.(i) then incr count
+    done;
+    !count
+
 let find_empty_cell grid =
-    let result = ref None in
+    let best = ref None in
+    let best_count = ref 10 in
     let n = Array.length grid in
     for y = 0 to n-1 do
         for x = 0 to n-1 do
-            if grid.(y).(x) = 0 && !result = None then
-                result :=Some (x, y)
+            if grid.(y).(x) = 0 then begin
+                let count = count_candidates grid x y in
+                if count < !best_count then begin
+                    best_count := count;
+                    best := Some (x, y)
+                end;
+            end;
         done;
     done;
-    !result
+    !best
 
 let rec try_numbers n m grid x y =
     if n > m then false
